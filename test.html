@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>CFMS - Test Upload</title>
+  </head>
+  <body>
+    <h2>Quick Upload Test</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+      <input type="file" name="file" id="fileInput" /><br/><br/>
+      <input type="text" name="course_id" placeholder="Course ID (optional)" /><br/><br/>
+      <input type="text" name="uploaded_by" placeholder="Your name" /><br/><br/>
+      <button type="submit">Upload</button>
+    </form>
+
+    <script>
+      // NOTE: this is very simple test UI. It does NOT attach an auth token.
+      // Use with a non-protected upload in testing or add header in fetch.
+      document.getElementById("uploadForm").addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const data = new FormData(form);
+
+        try {
+          const res = await fetch("http://localhost:5000/api/files/upload", {
+            method: "POST",
+            body: data
+            // If you need auth, add:
+            // headers: { "Authorization": "Bearer <token>" }
+          });
+          const json = await res.json();
+          alert(JSON.stringify(json, null, 2));
+        } catch (err) {
+          alert("Upload failed: " + err.message);
+        }
+      });
+    </script>
+  </body>
+</html>
