@@ -13,6 +13,8 @@ const app = express();
 
 app.use(cors());
 app.use(express.json()); // parse JSON bodies
+app.use(express.static("public"));
+
 
 // Routes
 app.use("/api/auth", authRoutes);
